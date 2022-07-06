@@ -14,6 +14,7 @@ namespace BeverageTracking.API
     {
         static readonly string Namespace = typeof(Startup).Namespace;
         static readonly string AppName = Namespace.Substring(Namespace.LastIndexOf('.', Namespace.LastIndexOf('.') - 1) + 1);
+        public static string EnvironmentName => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
         public static int Main(string[] args)
         {
@@ -40,10 +41,13 @@ namespace BeverageTracking.API
 
         public static IConfiguration GetConfiguration()
         {
+            var dict = Environment.GetEnvironmentVariables();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{EnvironmentName}.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables(prefix: "PREFIX_");
 
             var appAssembly = Assembly.Load(new AssemblyName(AppName));
             builder.AddUserSecrets(appAssembly, optional: true);

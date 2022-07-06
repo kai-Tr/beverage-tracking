@@ -12,4 +12,9 @@ namespace BeverageTracking.API.Services
         /// </summary>
         Task<BrewCoffeeResponse> BrewAsync();
     }
+
+    public interface IBreakfastCoffeeService : ICoffeeService
+    {
+        void Test();
+    }
 }

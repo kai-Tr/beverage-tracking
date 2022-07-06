@@ -32,6 +32,7 @@ namespace BeverageTracking.API
 
             var container = new ContainerBuilder();
             container.Populate(services);
+            services.AddLogging();
 
             return new AutofacServiceProvider(container.Build());
         }
@@ -40,6 +41,7 @@ namespace BeverageTracking.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             var pathBase = Configuration["PATH_BASE"];
+            var capacity = Configuration["ServiceCapacity"];
 
             if (!string.IsNullOrEmpty(pathBase))
             {

@@ -51,7 +51,7 @@ namespace BeverageTracking.API
         {
             services.Configure<AppSettings>(configuration);
             services.AddSingleton<IServerContext, ServerContext>();
-            services.AddScoped<ICoffeeService, CoffeeService>();
+            services.AddScoped<ICoffeeService, BreakfastCoffeeService>();
             services.AddScoped<ICoffeeStockRepository, CoffeeStockRepository>();
             return services;
         }

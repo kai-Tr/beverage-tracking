@@ -19,7 +19,7 @@ namespace BeverageTracking.API.Services
             _coffeeStockRepository = coffeeStockRepository;
         }
 
-        public async Task<BrewCoffeeResponse> BrewAsync()
+        public virtual async Task<BrewCoffeeResponse> BrewAsync()
         {
             if (_serverContext.ServerTime.Month == 4 && _serverContext.ServerTime.Day == 1)
             {
@@ -29,6 +29,20 @@ namespace BeverageTracking.API.Services
             var temperarture = await _weatherConnector.GetTemperatureAsync();
             _coffeeStockRepository.RemoveStock(1);
             return new BrewCoffeeResponse(_serverContext.ServerTime, temperarture);
+        }
+    }
+
+    public class BreakfastCoffeeService : CoffeeService
+    {
+        public BreakfastCoffeeService(IWeatherConnector weatherConnector, IServerContext serverContext, ICoffeeStockRepository coffeeStockRepository)
+            : base(weatherConnector, serverContext, coffeeStockRepository)
+        {
+
+        }
+
+        public void Test()
+        {
+
         }
     }
 }

@@ -3,16 +3,19 @@ using BeverageTracking.API.Instrucstures.Exceptions;
 using BeverageTracking.API.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace BeverageTracking.API.Controllers
 {
     public class CoffeeController : BaseController
     {
-        private readonly ICoffeeService _coffeeService;
-        public CoffeeController(ICoffeeService coffeeService)
+        private readonly IBreakfastCoffeeService _coffeeService;
+        private readonly ILogger _logger;
+        public CoffeeController(IBreakfastCoffeeService coffeeService, ILoggerFactory loggerFactory)
         {
             _coffeeService = coffeeService;
+            _logger = loggerFactory.CreateLogger("MyCategory");
         }
 
         [HttpGet("/brew-coffee")]
@@ -24,7 +27,8 @@ namespace BeverageTracking.API.Controllers
         {
             try
             {
-                return Ok(await _coffeeService.BrewAsync());
+                _logger.LogInformation("Brew Coffee Action");
+                return Ok();
             }
             catch (TeapotException)
             {
